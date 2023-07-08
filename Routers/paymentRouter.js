@@ -5,6 +5,8 @@ const PaymentController = require('../Controllers/paymentController')
 
 const controller = new PaymentController()
 
-router.get("/", controller.allDebits)
+router.get("/", controller.getDebits)
+router.get("/:id", controller.getDebit)
+router.post("/", controller.createDebit)
 
 module.exports = router
