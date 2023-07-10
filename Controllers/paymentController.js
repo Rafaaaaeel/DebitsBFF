@@ -1,16 +1,7 @@
 const model = require('../Models/payment')
 
-// TODO: 
-// Get all 
-// Get one
-// create 
-// delete 
-// Update
-
 class PaymentController {
-    'use strict'
-
-    // Get all 
+    
     async all(request, response) {
         try {
             const debits = await model.find()
@@ -20,7 +11,6 @@ class PaymentController {
         }
     }
 
-    // Get one
     async debit(request, response) {
         response.json(response.debit)
     }
@@ -28,38 +18,13 @@ class PaymentController {
     async update(request, response) {
         try {
             const debit = response.debit
-            // debit.name = "teste update------1"
-            const newDebit = await debit.save()
-            response.json(newDebit)
-        } catch (error) {
-
-        }
-    } 
-
-    async getDebit(request, response, next) {
-        try {
-            const debit = await model.findOne({ _id: request.params.id })
-
-            if (debit == null) {
-                response.status(404)
-                return
-            }
-
-            response.debit = debit
-    
-            next()
+            const debitUpdated = await debit.save()
+            response.json(debitUpdated)
         } catch (error) {
             response.status(500)
         }
-       
-    }
-    // async debit(request, response) {
-
-    // }
-
-    // Update
+    } 
     
-    // create 
     async create(request, response) {
         
         const debit = new model( {
@@ -77,14 +42,43 @@ class PaymentController {
         }
     }
 
-    // delete 
     async delete(request, response) {
+        try {
+            const debit = response.debit
+            const name = debit.name
+            await model.deleteOne({name: name})
+            response.status(200).json({message: `${name} was deleted`})
+        } catch (error) {
+            response.status(500)
+        }
+    }
+
+    async deleteAll(request, response) {
         try {
             await model.deleteMany();
             response.status(200).json( {message: "Delete"} )
         } catch (error) {
-
+            response.status(500)
         }
+    }
+
+    async getDebit(request, response, next) {
+        try {
+            const debit = await model.findOne({ _id: request.params.id })
+
+            if (debit == null) {
+                console.log("null")
+                response.status(404).json({message: "Not found"})
+                return
+            }
+
+            response.debit = debit
+    
+            next()
+        } catch (error) {
+            response.status(500)
+        }
+       
     }
 
 }
