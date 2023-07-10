@@ -19,10 +19,9 @@ const debitSchema = new mongoose.Schema({
         required: false
     },
     debit: {
-        type: Debit,
+        type: [Debit],
         required: true
     }
 })
-
 
 module.exports = mongoose.model('Debit', debitSchema)
