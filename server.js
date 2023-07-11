@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
-const router = require('./Routers')
+const router = require('./src/Routers')
 const PORT = 3000
 const db = mongoose.connection
 
