@@ -22,6 +22,8 @@ const debitSchema = new mongoose.Schema({
         type: [Debit],
         required: true
     }
+}, {
+    versionKey: false
 })
 
 module.exports = mongoose.model('Debit', debitSchema)

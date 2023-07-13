@@ -5,7 +5,7 @@ class PaymentController {
     async all(request, response) {
         try {
             const debits = await model.find()
-            response.json(debits)
+            response.json( { data: debits  } )
         } catch (error) {
             response.status(500)
         }
@@ -71,7 +71,7 @@ class PaymentController {
                 return
             }
 
-            response.debit = debit
+            response.debit = {debit: debit}
     
             next()
         } catch (error) {
