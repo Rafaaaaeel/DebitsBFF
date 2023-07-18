@@ -85,6 +85,19 @@ class PaymentController {
         }
     }
 
+    async pop(request, response) {
+        try {
+            const debit = response.debit.debit
+            const valueToPop = request.query.ids
+            debit.debit = debit.debit.filter(x => x._id != valueToPop)
+            const updated =  await debit.save()
+            response.json(updated)
+        } catch (error) {
+            console.error(error)
+        }
+        
+    }
+
     async getDebit(request, response, next) {
         try {
             const debit = await model.findOne({ _id: request.params.id })
