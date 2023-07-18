@@ -17,7 +17,7 @@ class PaymentController {
 
     async update(request, response) {
         try {
-            const debit = response.debit
+            const debit = response.debit.debit
             const debitUpdated = await debit.save()
             response.json(debitUpdated)
         } catch (error) {
@@ -25,6 +25,29 @@ class PaymentController {
         }
     } 
     
+    async append(request, response) {
+        try {
+
+            const bill = {
+                parcel: request.body.parecel,
+                tag: request.body.tag,
+                name: request.body.name,
+                color: request.body.color,
+                value: request.body.value
+            }
+    
+            const debit = response.debit.debit
+        
+            debit.debit.push(bill)
+
+            const newDebit = await debit.save()
+            response.json({created: newDebit})
+        } catch (error) {
+            response.status(500)
+        }
+       
+    }
+
     async create(request, response) {
         
         const debit = new model( {
@@ -44,7 +67,7 @@ class PaymentController {
 
     async delete(request, response) {
         try {
-            const debit = response.debit
+            const debit = response.debit.debit
             const name = debit.name
             await model.deleteOne({name: name})
             response.status(200).json({message: `${name} was deleted`})
@@ -65,13 +88,12 @@ class PaymentController {
     async getDebit(request, response, next) {
         try {
             const debit = await model.findOne({ _id: request.params.id })
-
             if (debit == null) {
                 response.status(404).json({message: "Not found"})
                 return
             }
 
-            response.debit = {debit: debit}
+            response.debit = { debit: debit }
     
             next()
         } catch (error) {
