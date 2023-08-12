@@ -21,7 +21,13 @@ const debitSchema = new mongoose.Schema({
     debits: { 
         type: [details],
         required: true
+    },
+
+    total: {
+        type: Number,
+        required: false
     }
+
 }, {
     versionKey: false
 })
