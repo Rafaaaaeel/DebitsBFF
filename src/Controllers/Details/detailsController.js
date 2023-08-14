@@ -70,7 +70,6 @@ class DetailConstroller {
             response.json(updated)
             
         } catch (error) {
-            
         }
     }
 

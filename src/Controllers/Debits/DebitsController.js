@@ -5,8 +5,11 @@ class DebitsController {
     
     async all(request, response) {
         try {
+            
             const debits = await model.find()
+            
             response.json( { data: debits  } )
+
         } catch (error) {
             response.status(500)
         }
@@ -42,6 +45,7 @@ class DebitsController {
             debit.debit.push(bill)
 
             const newDebit = await debit.save()
+
             response.json({created: newDebit})
         } catch (error) {
             response.status(500)
@@ -67,15 +71,14 @@ class DebitsController {
         }
     }
 
-    async delete(request, response) {
-        try {
-            const debit = response.debit.debit
-            const name = debit.name
-            await model.deleteOne({name: name})
-            response.status(200).json({message: `${name} was deleted`})
-        } catch (error) {
-            response.status(500)
-        }
+    async delete(request, response, next) {
+        const debit = response.debit.debit
+            
+        const name = debit.name
+        
+        const saved = await debit.deleteOne({name: name})
+
+        next()
     }
 
     async deleteAll(request, response) {

@@ -8,7 +8,7 @@ router.get("/", controller.all)
 router.post("/", controller.create)
 router.get("/:id", controller.getDebit, controller.debit)
 router.delete("/all", controller.deleteAll)
-router.delete("/:id", controller.getDebit, controller.delete)
+router.delete("/:id", controller.getDebit, controller.delete, controller.all)
 router.patch("/:id", controller.getDebit, controller.update)
 
 module.exports = router
